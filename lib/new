@@ -1,0 +1,80 @@
+SELECT 'estrato uno' as detalle,
+count(*) as cantidad,
+round(count(*)*100:: numeric/(
+select count(*)
+from
+estudiantes 
+join ciudades On ciudad = codciudad
+join barrios on barrio = codbarrio
+join programas on programa = codprograma
+where
+nomprograma like '%forestal%' AND
+nomciudad like '%ali' 
+),2) as porcentaje
+union 
+SELECT 'estrato cuatro' as detalle,
+count(*) as cantidad,
+round(count(*)*100:: numeric/(
+select count(*)
+from
+estudiantes 
+join ciudades On ciudad = codciudad
+join barrios on barrio = codbarrio
+join programas on programa = codprograma
+where
+nomprograma like '%ercad_o%' AND
+nomciudad like '%ali' 
+),2) as porcentaje
+
+from
+estudiantes 
+join ciudades On ciudad = codciudad
+join barrios on barrio = codbarrio
+join programas on programa = codprograma
+where
+nomprograma like '%ercad_o%' AND
+nomciudad like '%ali' AND
+sexestudiante like 'F'
+union
+select 
+'Totales' as detalle,
+sum(t1.cantidad) as cantidad,
+sum(t1.porcentaje) as porcentaje
+from(
+SELECT 'estrato uno' as detalle,
+count(*) as cantidad,
+round(count(*)*100:: numeric/(
+select count(*)
+from
+estudiantes 
+join ciudades On ciudad = codciudad
+join barrios on barrio = codbarrio
+join programas on programa = codprograma
+where
+nomprograma like '%forestal%' AND
+nomciudad like '%ali' 
+),2) as porcentaje
+union 
+SELECT 'estrato cuatro' as detalle,
+count(*) as cantidad,
+round(count(*)*100:: numeric/(
+select count(*)
+from
+estudiantes 
+join ciudades On ciudad = codciudad
+join barrios on barrio = codbarrio
+join programas on programa = codprograma
+where
+nomprograma like '%forestal%' AND
+nomciudad like '%ali' 
+),2) as porcentaje
+
+from
+estudiantes 
+join ciudades On ciudad = codciudad
+join barrios on barrio = codbarrio
+join programas on programa = codprograma
+where
+nomprograma like '%forestal%' AND
+nomciudad like '%ali' AND
+sexestudiante like 'F')as t1
